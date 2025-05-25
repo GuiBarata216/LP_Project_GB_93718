@@ -5,13 +5,13 @@ public class ASTLet implements ASTNode {
     ASTNode body;
 
     public IValue eval(Environment<IValue> e) throws InterpreterError {
-	Environment<IValue> en = e.beginScope();
-	/*missing code */
+	    Environment<IValue> en = e.beginScope();
+	    /*missing code */
     }
 
     public ASTLet(List<Bind> decls, ASTNode b) {
-	this.decls = decls;
-	body = b;
+	    this.decls = decls;
+	    body = b;
     }
 
 }

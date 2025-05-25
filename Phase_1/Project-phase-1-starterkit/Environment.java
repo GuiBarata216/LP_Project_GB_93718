@@ -10,7 +10,7 @@ public class Environment <E>{
     }
     
     Environment(Environment<E> ancestor){
-	// code missing
+	    // code missing
     }
 
     Environment<E> beginScope(){
@@ -22,13 +22,13 @@ public class Environment <E>{
     }
 
     void assoc(String id, E bind) throws InterpreterError {
-	// code missing
+	    // code missing
     }
 
 
     E find(String id) throws InterpreterError {
-	// code missing
-	return null;
+        // code missing
+        return null;
     }
 
 }

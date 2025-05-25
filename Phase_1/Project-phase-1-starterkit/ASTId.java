@@ -6,9 +6,8 @@ public	class ASTId implements ASTNode	{
         this.id = id;
     }
 
-    public IValue eval(Environment<IValue> env)	throws
-    InterpreterError {
-    return env.find(id);	
+    public IValue eval(Environment<IValue> env)	throws InterpreterError {
+        return env.find(id);	
     }
 
 }	
