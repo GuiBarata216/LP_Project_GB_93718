@@ -10,7 +10,9 @@ public class Environment <E>{
     }
     
     Environment(Environment<E> ancestor){
-	    // code missing
+	    // Initialize new environment with reference to outer scope
+        anc = ancestor;
+        bindings = new HashMap<>();
     }
 
     Environment<E> beginScope(){
@@ -22,13 +24,20 @@ public class Environment <E>{
     }
 
     void assoc(String id, E bind) throws InterpreterError {
-	    // code missing
+	    // Add new binding to the current scope
+        bindings.put(id, bind);
     }
 
 
     E find(String id) throws InterpreterError {
-        // code missing
-        return null;
+        // Look up variable recursively in current and outer scopes
+        if (bindings.containsKey(id)) {
+            return bindings.get(id);
+        } else if (anc != null) {
+            return anc.find(id);
+        } else {
+            throw new InterpreterError("Unbound variable: " + id);
+        }
     }
 
 }

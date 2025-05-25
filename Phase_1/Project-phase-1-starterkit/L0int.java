@@ -1,7 +1,12 @@
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 public class L0int {
 
-    public static void main(String args[]) {
-		Parser parser = new Parser(System.in);
+    public static void main(String args[]) throws Exception{
+		// Updated to read test files
+		InputStream input = args.length > 0 ? new FileInputStream(args[0]) : System.in;
+		Parser parser = new Parser(input);
 		ASTNode exp;
 		
 		System.out.println("L0 interpreter PL MEIC 2024/25 (v0.0)\n");
