@@ -172,9 +172,12 @@ ASTNode Rel() :
   ASTNode t1, t2;}
 {
      t1 = Exp() ( ( op=<EQ> | op=<GT> | op=<LT> | op=<GTEQ> | op=<LTEQ> | op=<DIF>) t2 = Exp() 
-     	  	  {
-		 /* missing AST build */
-		   } 
+     	  	  {if (op.kind == EQ) t1 = new ASTEqual(t1, t2);
+            else if (op.kind == GT) t1 = new ASTGreater(t1, t2);
+            else if (op.kind == LT) t1 = new ASTLess(t1, t2);
+            else if (op.kind == GTEQ) t1 = new ASTGreaterEq(t1, t2);
+            else if (op.kind == LTEQ) t1 = new ASTLessEq(t1, t2);
+            else if (op.kind == DIF)  t1 = new ASTDifferent(t1, t2);} 
 		)?
      { return t1; } 
 }
@@ -210,7 +213,7 @@ ASTNode Term() :
 
 ASTNode Fact() :
 { Token n; 
-  ASTNode t, e1, e2;
+  ASTNode t, e1, e2, cond;
   List<Bind> decls;
   ASTNode  body, alt;
 }
@@ -224,7 +227,7 @@ ASTNode Fact() :
     | <STAR> t=Fact() { /* missing AST for deref */; t = null; }
     | <MINUS> t=Fact() { t = new ASTNeg(t); }
     | <NOT> t=Fact() {  /* missing AST for not */; t = null;  }
-    | <IF> t=BA() <LBRA> e1=Let() <RBRA> <ELSE> <LBRA> e2=Let() <RBRA> {/* TBC */ t = null; }
+    | <IF> cond=BA() <LBRA> e1=Let() <RBRA> <ELSE> <LBRA> e2=Let() <RBRA> { t = new ASTIf(cond, e1, e2); }
     | <WHILE> t=BA() <LBRA> body=Let() <RBRA> { /* TBC */ t = null; }
     | <FN> n=<Id> { t = null; }
       	   	  (<COMMA> n = <Id>  {/* TBC */ })*

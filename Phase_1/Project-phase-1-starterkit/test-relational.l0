@@ -1,0 +1,80 @@
+let x = 5;
+let y = 3;
+x > y
+;;
+
+let x = 5;
+let y = 3;
+x < y
+;;
+
+let x = 5;
+let y = 3;
+x >= y
+;;
+
+let x = 5;
+let y = 3;
+x <= y
+;;
+
+let x = 5;
+let y = 3;
+x == y
+;;
+
+let x = 5;
+let y = 3;
+x ~= y
+;;
+
+let a = 10;
+let b = 10;
+a == b
+;;
+
+let a = 10;
+let b = 10;
+a ~= b
+;;
+
+let a = 10;
+let b = 10;
+a >= b
+;;
+
+let a = 10;
+let b = 10;
+a <= b
+;;
+
+let a = 10;
+let b = 10;
+a < b
+;;
+
+let a = 10;
+let b = 10;
+a > b
+;;
+
+let x = 5;
+let y = 3;
+if (x > y) { 1 } else { 0 }
+;;
+
+let x = 5;
+let y = 3;
+if (x == y) { 1 } else { 0 }
+;;
+
+let a = 10;
+let b = 10;
+if (a ~= b) { 123 } else { 321 }
+;;
+
+let a = 10;
+let b = 10;
+if (a < 20) { a + b } else { 0 }
+;;
+

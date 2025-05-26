@@ -212,7 +212,12 @@ public class Parser implements ParserConstants {
         throw new ParseException();
       }
       t2 = Exp();
-
+                   if (op.kind == EQ) t1 = new ASTEqual(t1, t2);
+            else if (op.kind == GT) t1 = new ASTGreater(t1, t2);
+            else if (op.kind == LT) t1 = new ASTLess(t1, t2);
+            else if (op.kind == GTEQ) t1 = new ASTGreaterEq(t1, t2);
+            else if (op.kind == LTEQ) t1 = new ASTLessEq(t1, t2);
+            else if (op.kind == DIF)  t1 = new ASTDifferent(t1, t2);
       break;
     default:
       jj_la1[8] = jj_gen;
@@ -303,7 +308,7 @@ public class Parser implements ParserConstants {
 
   static final public ASTNode Fact() throws ParseException {
   Token n;
-  ASTNode t, e1, e2;
+  ASTNode t, e1, e2, cond;
   List<Bind> decls;
   ASTNode  body, alt;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -345,7 +350,7 @@ public class Parser implements ParserConstants {
       break;
     case IF:
       jj_consume_token(IF);
-      t = BA();
+      cond = BA();
       jj_consume_token(LBRA);
       e1 = Let();
       jj_consume_token(RBRA);
@@ -353,7 +358,7 @@ public class Parser implements ParserConstants {
       jj_consume_token(LBRA);
       e2 = Let();
       jj_consume_token(RBRA);
-                                                                        /* TBC */ t = null;
+                                                                            t = new ASTIf(cond, e1, e2);
       break;
     case WHILE:
       jj_consume_token(WHILE);
