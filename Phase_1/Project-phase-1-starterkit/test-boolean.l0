@@ -1,0 +1,23 @@
+let b1 = true;
+let b2 = false;
+b1 && b2
+;;
+
+let b1 = true;
+let b2 = false;
+b1 || b2
+;;
+
+let b1 = false;
+~b1
+;;
+
+let x = 5;
+let y = 5;
+(x == y) && ~(x ~= y)
+;;
+
+let x = 3;
+let y = 4;
+(x < y) || (x > y)
+;;

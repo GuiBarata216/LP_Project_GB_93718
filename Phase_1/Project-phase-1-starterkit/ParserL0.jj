@@ -148,7 +148,7 @@ ASTNode BA() :
 {
      t1 = BM() ( ( op=<OR> ) t2 = BM() 
  		 {
-		 /* missing AST build */
+		 t1 = new ASTOr(t1, t2);
 		 } 
 		)*
      { return t1; } 
@@ -160,7 +160,7 @@ ASTNode BM() :
 {
      t1 = Rel() ( ( op=<AND> ) t2 = Rel() 
  		 {
-		 /* missing AST build */
+		 t1 = new ASTAnd(t1, t2);
  		 } 
 		)*
      { return t1; } 
@@ -220,13 +220,13 @@ ASTNode Fact() :
 {
    (
       n=<Num> { t = new ASTInt(Integer.parseInt(n.image)); } 
-    | n=<TRUE> { /* missing AST for true */; t = null; }
-    | n=<FALSE> {  /* missing AST for false */; t = null;}
+    | n=<TRUE> { t = new ASTBool(true); }
+    | n=<FALSE> { t = new ASTBool(false);}
     | n=<Id> { t = new ASTId(n.image); } 
     | <BOX> t=Fact() { /* missing AST for box */; t = null; }
     | <STAR> t=Fact() { /* missing AST for deref */; t = null; }
     | <MINUS> t=Fact() { t = new ASTNeg(t); }
-    | <NOT> t=Fact() {  /* missing AST for not */; t = null;  }
+    | <NOT> t=Fact() {  t = new ASTNot(t);  }
     | <IF> cond=BA() <LBRA> e1=Let() <RBRA> <ELSE> <LBRA> e2=Let() <RBRA> { t = new ASTIf(cond, e1, e2); }
     | <WHILE> t=BA() <LBRA> body=Let() <RBRA> { /* TBC */ t = null; }
     | <FN> n=<Id> { t = null; }

@@ -148,7 +148,7 @@ public class Parser implements ParserConstants {
       }
       op = jj_consume_token(OR);
       t2 = BM();
-
+                 t1 = new ASTOr(t1, t2);
     }
        {if (true) return t1;}
     throw new Error("Missing return statement in function");
@@ -170,7 +170,7 @@ public class Parser implements ParserConstants {
       }
       op = jj_consume_token(AND);
       t2 = Rel();
-
+                 t1 = new ASTAnd(t1, t2);
     }
        {if (true) return t1;}
     throw new Error("Missing return statement in function");
@@ -318,11 +318,11 @@ public class Parser implements ParserConstants {
       break;
     case TRUE:
       n = jj_consume_token(TRUE);
-                 /* missing AST for true */; t = null;
+                 t = new ASTBool(true);
       break;
     case FALSE:
       n = jj_consume_token(FALSE);
-                   /* missing AST for false */; t = null;
+                  t = new ASTBool(false);
       break;
     case Id:
       n = jj_consume_token(Id);
@@ -346,7 +346,7 @@ public class Parser implements ParserConstants {
     case NOT:
       jj_consume_token(NOT);
       t = Fact();
-                        /* missing AST for not */; t = null;
+                        t = new ASTNot(t);
       break;
     case IF:
       jj_consume_token(IF);
