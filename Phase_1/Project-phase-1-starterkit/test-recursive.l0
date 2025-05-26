@@ -1,0 +1,23 @@
+let fact = fn n => {
+  if (n == 0) { 1 }
+  else { n * fact(n - 1) }
+};
+fact(5)
+;;
+
+let tri = fn n => {
+  if (n == 0) { 0 }
+  else { n + tri(n - 1) }
+};
+tri(4)
+;;
+
+let fib = fn n => {
+  if (n == 0) { 0 }
+  else {
+    if (n == 1) { 1 }
+    else { fib(n - 1) + fib(n - 2) }
+  }
+};
+fib(6)
+;;

@@ -205,9 +205,22 @@ ASTNode Term() :
 		 |
 		 op=<DIV> t2 = Fact()  { t1 = new ASTDiv(t1,t2); }
 		 |
-		 op = <LPAR> t2 = Exp () <RPAR>  { /* TBC */ } 
+		 op = <LPAR> t2 = Exp () <RPAR>  { t1 = t2; } 
 		)*
      { return t1; } 
+}
+
+
+List<Bind> DeclList() :
+{
+  Token id;
+  ASTNode e;
+  List<Bind> ds = new ArrayList<Bind>();
+}
+{
+  id = <Id> <EQUAL> e = BA() <SEMIC> { ds.add(new Bind(id.image, e)); }
+  ( id = <Id> <EQUAL> e = BA() <SEMIC> { ds.add(new Bind(id.image, e)); } )*
+  { return ds; }
 }
 
 
@@ -237,6 +250,8 @@ ASTNode Fact() :
     | <PRINT> t=Fact() { /* missing AST for print */; t = null;  }
     | <PRINTLN> t=Fact() {/* missing AST for println */; t = null;  }
     | <LPAR> t=Let() <RPAR> 
+    | LOOKAHEAD(2) <LPAR> <LET> decls = DeclList() <SEMIC> body = Let() <RPAR> { t = new ASTLet(decls, body); }
+    
     )
 
     ( <LPAR> a1=Let() { List<ASTNode> arglist = new ArrayList<ASTNode>(); arglist.add(a1);}

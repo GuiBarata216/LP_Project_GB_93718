@@ -6,6 +6,11 @@ public class ASTLet implements ASTNode {
 
     public IValue eval(Environment<IValue> e) throws InterpreterError {
 	    Environment<IValue> en = e.beginScope();
+
+        for (Bind b : decls) {
+            en.assoc(b.getId(), new VDummy());  // placeholder value for recursion
+        }
+
 	    // Evaluate each binding and extend the local environment
         for (Bind b : decls) {
             IValue v = b.getExp().eval(en);
