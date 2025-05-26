@@ -212,10 +212,11 @@ ASTNode Term() :
 
 
 ASTNode Fact() :
-{ Token n; 
-  ASTNode t, e1, e2, cond;
+{ Token n, id1, idn; 
+  ASTNode t, e1, e2, cond, a1, aN;
   List<Bind> decls;
   ASTNode  body, alt;
+  List<String> args;
 }
 {
    (
@@ -229,12 +230,18 @@ ASTNode Fact() :
     | <NOT> t=Fact() {  t = new ASTNot(t);  }
     | <IF> cond=BA() <LBRA> e1=Let() <RBRA> <ELSE> <LBRA> e2=Let() <RBRA> { t = new ASTIf(cond, e1, e2); }
     | <WHILE> t=BA() <LBRA> body=Let() <RBRA> { /* TBC */ t = null; }
-    | <FN> n=<Id> { t = null; }
-      	   	  (<COMMA> n = <Id>  {/* TBC */ })*
-		  <ARROW> <LBRA> e2 = Let() <RBRA> { /* TBC */ }
+    | <FN> id1=<Id> { { args = new ArrayList<String>(); args.add(id1.image); } }
+      (<COMMA> idn=<Id> { args.add(idn.image); })*
+      <ARROW> <LBRA> body=Let() <RBRA> { t = new ASTFn(args, body); }
+
     | <PRINT> t=Fact() { /* missing AST for print */; t = null;  }
     | <PRINTLN> t=Fact() {/* missing AST for println */; t = null;  }
     | <LPAR> t=Let() <RPAR> 
     )
+
+    ( <LPAR> a1=Let() { List<ASTNode> arglist = new ArrayList<ASTNode>(); arglist.add(a1);}
+    ( <COMMA> aN=Let() { arglist.add(aN); } )*
+    <RPAR> { t = new ASTApp(t, arglist); } )*
+
    { return t; }
 }
